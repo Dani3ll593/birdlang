@@ -1,0 +1,48 @@
+# Birdlang
+
+> Mesa de trabajo nativa y de código abierto para intérpretes español ↔ inglés en Windows 10 (22H2) y Windows 11 de 64 bits (la versión para Mac está en desarrollo). Muestra subtítulos en vivo de la llamada, pasa números y teléfonos a cifras, busca calles de EE. UU. sin internet y ofrece un glosario de casi 40.000 términos en memoria. No traduce, no se conecta a internet y no escribe nada de la llamada en el disco duro.
+
+## Qué hace y qué no hace
+
+- **No traduce ni usa modelos de lenguaje:** No resume ni cambia lo que dicen las partes. Los únicos componentes de inteligencia artificial son tres modelos acústicos locales ejecutados en el procesador del equipo:
+  1. **Silero VAD** (MIT): detección de actividad de voz. Corta la frase tras 0,42 s de silencio, o espera 1,2 s si la frase termina en un número, para no cortar teléfonos dictados por grupos.
+  2. **VoxLingua107 ECAPA** (Apache-2.0): identificación de idioma hablado entre inglés y español.
+  3. **Moonshine Streaming** (MIT): reconocimiento de voz a texto palabra por palabra.
+- **Todo lo demás son reglas fijas:**
+  - Conversión de palabras numéricas a dígitos, horas (`7:30 p.m.`) y montos (`Cifras.cs`). Los teléfonos que solo salieron del audio llevan la marca «verificar».
+  - Buscador fonético de calles de EE. UU. (`Calles.cs`) con 10.669 calles (CC BY-SA 4.0) y 40.979 códigos postales de GeoNames (CC BY 4.0): 46 de 48 aciertos en primer lugar en las pruebas y 1,87 ms de promedio.
+  - Glosario en memoria (`Glosario.cs`): tabla en memoria con índice (no usa base de datos en disco) con 39.819 términos y una demora media de búsqueda de unos 3–4 ms (3,59 ms medidos).
+
+## Privacidad y seguridad (`SEGURIDAD_EMPRESAS.md`)
+
+- **Sin internet:** El programa no tiene código de red. Cada vez que se arma el paquete se verifica que los binarios no contengan referencias de red. En sesiones de prueba de 30 y 40 minutos con Process Monitor hizo 0 conexiones de red y escribió 0 archivos (sin incluir el cierre del programa).
+- **Nada de la llamada en disco:** El audio, los subtítulos, las notas y las búsquedas viven solo en la memoria RAM. Se borran al pulsar «Fin de sesión», tras 15 minutos sin actividad o al cerrar el programa. Un teléfono copiado para marcar se borra del portapapeles a los 20 segundos y no entra al historial del portapapeles. Lo único que escribe la versión Estándar es «No volver a mostrar» del aviso para voluntarios (`preferencias.txt`); la versión para empresas no escribe nada.
+- **Ventana y supervisión:** La ventana se oculta de capturas y de compartir pantalla, pero un programa con permisos de administrador podría leerla. El modo «Supervisión» la hace visible para un supervisor de calidad con un borde ámbar y se apaga solo a los 20 minutos.
+- **Recomendaciones a TI:** Activar BitLocker (para cifrar el archivo de paginación), desactivar la hibernación (`powercfg /h off`) y, opcionalmente, bloquear `Birdlang.exe` en el Firewall de Windows: no usa la red.
+- **Dos paquetes:** `Birdlang-<versión>.zip` (incluye `actualizar.ps1`, que solo consulta GitHub Releases cuando el usuario lo pide) y `Birdlang-Empresas-<versión>.zip` (sin el actualizador aparte). La primera versión todavía no está firmada.
+- **Métricas de voluntarios:** el aviso «Colabora con el proyecto» (solo versión Estándar) invita a pegar el resumen de «📋 Métricas» en un Google Form: solo datos técnicos de rendimiento (equipo, tiempos y conteos), nunca lo que se dijo.
+
+## Rendimiento y equipos
+
+- **Recomendado (medido en laptop Ryzen 7 7730U, 16 GB de RAM):** 3 h 32 min de uso (1.440 frases): procesador 2 % promedio y 8 % en el peor segundo; 752 MB de RAM; demora mediana 1,64 s (9 de cada 10 frases en 1,83 s, peor caso 4,72 s).
+- **Mínimo de la industria (4 núcleos / 8 hilos, ej. Core i5-8250U, 8 GB de RAM):** ~5–12 % de procesador promedio, ~18–25 % en el peor segundo y demora mediana menor a 2,0 s (estimado).
+- **Piso probado por debajo del mínimo (Core i3-4150T, 2 núcleos, 8 GB de RAM):** medido con videos de práctica de YouTube: procesador 15 % promedio y 30–34 % en el peor segundo; 712–737 MB de RAM; demora mediana 2,13–2,25 s (una versión anterior perdía el 1,4 % del audio en los picos; la actual guarda más audio y falta medirla en este equipo).
+
+## Fuentes del glosario (39.819 términos)
+
+- Wikidata (CC0): 9.962
+- Wiktionary en español (CC BY-SA 4.0): 9.150
+- Instituto Nacional del Cáncer, NCI (dominio público federal de EE. UU.): 7.962
+- Wiktionary en inglés (CC BY-SA 4.0): 6.533
+- MedlinePlus, NLM (dominio público federal de EE. UU.): 2.795
+- CFPB (dominio público federal de EE. UU.): 1.888
+- IRS Publicación 850 (dominio público federal de EE. UU.): 1.331
+- Birdlang propio (CC BY-SA 4.0): 155
+- CMS / Departamento de Trabajo (dominio público federal de EE. UU.): 43
+
+## Enlaces
+
+- Página principal (español): https://dani3ll593.github.io/birdlang/
+- Versión en inglés: https://dani3ll593.github.io/birdlang/en/
+- Detalle técnico completo: https://dani3ll593.github.io/birdlang/llms-full.txt
+- Repositorio: https://github.com/Dani3ll593/birdlang

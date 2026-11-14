@@ -1,0 +1,77 @@
+Birdlang: Atribución de Datos y Código / Data and Code Attributions
+
+Código fuente / Source Code:
+  Licencia / License: Apache License, Version 2.0.
+  Consulte el archivo LICENSE en la raíz del programa / See LICENSE file in application root.
+
+codigos_postales.tsv:
+  Fuente / Source: GeoNames, archivo de códigos postales de EE. UU.
+  (https://www.geonames.org / https://download.geonames.org/export/zip/US.zip).
+  Licencia / License: Creative Commons Atribución 4.0 Internacional (CC BY 4.0)
+  https://creativecommons.org/licenses/by/4.0/deed.es
+  Cambios / Changes: Se dejaron solo el código postal, la ciudad y el estado,
+  con la primera ciudad que GeoNames da para cada código.
+
+glosario.tsv:
+  Glosario terminológico bilingüe / Bilingual terminological dataset.
+  Licencia del conjunto / Dataset License: Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)
+  https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+  Fuentes libres utilizadas y cambios realizados / Open sources used and changes made:
+  - IRS Publicación 850 (en-sp): English-Spanish Glossary of Words and Phrases
+    URL: https://www.irs.gov/pub/irs-pdf/p850.pdf
+    Licencia: Dominio público federal de EE. UU. (17 U.S.C. § 105).
+    Cambios: Se extrajeron los pares término-traducción de las 3 columnas de la publicación oficial, asignando la categoría Impuestos y país Todos.
+
+  - CFPB: Glossary of English-Spanish Financial Terms (Consumer Financial Protection Bureau)
+    URL: https://files.consumerfinance.gov/f/201510_cfpb_spanish-style-guide-glossary.pdf
+    Licencia: Dominio público federal de EE. UU. (17 U.S.C. § 105).
+    Cambios: Se extrajeron los términos de las tablas oficiales bilingües uniendo filas continuadas, asignando la categoría Finanzas y país Todos.
+
+  - CMS/DOL: Uniform Glossary of Coverage and Medical Terms (CMS y Departamento de Trabajo)
+    URL (EN): https://www.cms.gov/cciio/resources/forms-reports-and-other-resources/downloads/uniform-glossary-final.pdf
+    URL (ES): https://www.cms.gov/files/document/spanish-uniform-glossary-110424.pdf
+    Licencia: Dominio público federal de EE. UU. (17 U.S.C. § 105).
+    Cambios: Se extrajeron los términos bilingües y las definiciones oficiales en español directamente de los documentos PDF mediante análisis posicional de columnas y texto en negrita, recortando las definiciones oficiales a 200 caracteres en el límite de una palabra, asignando categorías Seguros/Médico y país Todos.
+
+  - Wiktionary vía kaikki.org:
+    "Wiktionary contributors, extraído con wiktextract (kaikki.org)"
+    URL (ES): https://kaikki.org/dictionary/Spanish/kaikki.org-dictionary-Spanish.jsonl.gz
+    URL (EN): https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl.gz
+    Licencia: Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0) y GFDL
+    https://creativecommons.org/licenses/by-sa/4.0/
+    Cambios:
+    * En wiktionary (ES): se tomaron pares y definiciones breves de acepciones con etiquetas temáticas especializadas o con etiquetas de países hispanohablantes admitidos, asignando categorías y países normalizados.
+    * En wiktionary-en (EN): se tomaron traducciones al español atadas a sus sentidos especializados (medicina, anatomía, farmacología, derecho, crimen, finanzas, seguros, impuestos, inmigración), normalizando países y asignando categorías técnicas.
+
+  - Wikidata (CC0):
+    URL: https://query.wikidata.org/sparql (Wikidata contributors)
+    Licencia: Creative Commons CC0 1.0 Universal (CC0 1.0) / Dominio público.
+    https://creativecommons.org/publicdomain/zero/1.0/
+    Cambios: Se extrajeron etiquetas y hasta 3 alias en español para 13 conceptos técnicos (enfermedades, síntomas, procedimientos, pruebas, anatomía, medicamentos, principios activos, especialidades, delitos, conceptos jurídicos, procesos judiciales, tribunales e instrumentos financieros), tomando solo tipos (subclases) en delitos, procesos judiciales, tribunales e instrumentos financieros, descartando los ítems con fecha, país o lugar (hechos concretos), filtrando paréntesis de desambiguación, códigos numéricos, frases de más de 6 palabras e identidades léxicas no latinas.
+
+  - NCI: Diccionario de Cáncer del Instituto Nacional del Cáncer (Cancer.gov)
+    URL: https://webapis.cancer.gov/glossary/v1/Terms/Cancer.gov/Patient/
+    Licencia: Dominio público federal de EE. UU. (17 U.S.C. § 105; https://www.cancer.gov/policies/copyright-reuse).
+    "Unless otherwise indicated, all text within National Cancer Institute (NCI) products is free of copyright and may be reused without our permission."
+    Cambios: Se emparejaron términos en inglés y español mediante el identificador numérico de término (termId) de la API pública para pacientes, recortando la definición oficial en español a 200 caracteres en límite de palabra, asignando categoría Médico y país Todos.
+
+  - MedlinePlus: Temas de Salud en XML (Biblioteca Nacional de Medicina de EE. UU. / NLM)
+    URL: https://medlineplus.gov/xml.html
+    Licencia: Dominio público federal de EE. UU. (17 U.S.C. § 105; https://medlineplus.gov/about/using/usingcontent/).
+    "Works produced by the federal government are not copyrighted under U.S. law. You may reproduce, redistribute, and link freely to non-copyrighted content..."
+    Cambios: Se emparejaron temas de salud bilingües producidos directamente por la NLM junto con sus variantes y sinónimos autorizados ("also called"), excluyendo enciclopedias comerciales (A.D.A.M.) e información farmacéutica de terceros con copyright, asignando categoría Médico y país Todos.
+
+  - Birdlang propio (lista propia del proyecto):
+    155 entradas: latinismos jurídicos usuales y regionalismos de interpretación comunitaria para EE. UU. y países hispanohablantes.
+    Licencia: CC BY-SA 4.0.
+
+calles.txt:
+  Catálogo de vías y nombres de calles en EE. UU. / US Street Names Directory.
+  Licencia / License: Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)
+  https://creativecommons.org/licenses/by-sa/4.0/deed.es
+  Origen: Lista propia de nombres frecuentes de calles en EE. UU. (árboles, topónimos,
+  apellidos y nombres comunes), compilada por el proyecto.
+
+Para ver las licencias de software, modelos y componentes de terceros, consulte THIRD-PARTY-NOTICES.md en la raíz de la aplicación.
+For third-party software, libraries, and model licenses, see THIRD-PARTY-NOTICES.md in the application root.

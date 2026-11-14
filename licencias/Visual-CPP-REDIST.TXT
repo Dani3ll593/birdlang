@@ -1,0 +1,27 @@
+Microsoft Visual C++ Runtime - Distributable Code Notice
+
+Files:
+  - msvcp140.dll
+  - msvcp140_1.dll
+  - vcruntime140.dll
+  - vcruntime140_1.dll
+
+Origin: Microsoft Visual Studio 2019 Build Tools
+Path: VC\Redist\MSVC\14.29.30133\x64\Microsoft.VC142.CRT\
+Copyright: Copyright (c) Microsoft Corporation. All rights reserved.
+
+Distribution Terms:
+These dynamic link libraries are part of the Microsoft Visual C++ 2015-2022
+Redistributable package, provided under Microsoft Visual Studio Licensing Terms
+and the official Microsoft Visual Studio 2019 Distributable Code list ("REDIST list"):
+https://learn.microsoft.com/visualstudio/releases/2019/redistribution
+
+Under the "Visual C++ Runtime Files" section of the Microsoft Visual Studio 2019
+Redistribution Guide, developers are granted permission to distribute the files
+in the `VC\Redist\MSVC\<version>\x64\Microsoft.VC<version>.CRT` directory with their
+applications for application-local deployment alongside executable binaries.
+
+In Birdlang, these libraries are bundled locally alongside the application and
+the native Moonshine / ONNX Runtime C-API binaries to ensure functionality on
+Windows machines without requiring administrative installation of the system-wide
+Visual C++ Redistributable package.

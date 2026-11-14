@@ -1,0 +1,98 @@
+# Birdlang — Ficha técnica y de seguridad / Technical and Security Sheet
+
+Sitio web: https://dani3ll593.github.io/birdlang/
+Versión en inglés: https://dani3ll593.github.io/birdlang/en/
+Repositorio: https://github.com/Dani3ll593/birdlang
+Licencia del código: Apache-2.0
+Licencia del glosario y calles: CC BY-SA 4.0 (códigos postales de GeoNames bajo CC BY 4.0)
+
+================================================================================
+ESPAÑOL
+================================================================================
+
+## 1. Qué es Birdlang
+
+Herramienta nativa de escritorio para intérpretes español ↔ inglés en Windows 10 (22H2) y Windows 11 de 64 bits (la versión para Mac está en desarrollo). Muestra subtítulos de la llamada en vivo, pasa números y teléfonos a cifras, resuelve calles de EE. UU. sin conexión y ofrece un glosario de casi 40.000 términos. No traduce y no tiene chatbot ni modelo de lenguaje.
+
+## 2. Recorrido del audio y números
+
+- **Qué escucha:** Solo el sonido del navegador donde corre la llamada (Chrome, Edge o Brave): todo el sonido de ese navegador, no una sola pestaña. Nunca usa el micrófono del intérprete.
+- **Modelos locales en el procesador:**
+  1. **Silero VAD** (MIT): detecta actividad de voz y corta la frase tras 0,42 s de silencio.
+  2. **VoxLingua107 ECAPA** (Apache-2.0): decide entre inglés y español con la voz activa de la frase.
+  3. **Moonshine Streaming** (MIT): transcribe palabra por palabra en el procesador.
+- **Teléfonos dictados:** Si la frase se cerrara en la pausa entre grupos de dígitos, el motor en inglés puede inventar los dígitos que faltan. Por eso, si el texto termina en un número, Birdlang espera 1,2 s de silencio antes de cerrar la frase, y los teléfonos que solo salieron del audio llevan la marca «verificar».
+
+## 3. Calles y glosario en memoria
+
+- **Calles de EE. UU. sin internet:** 10.669 calles (`calles.txt`, CC BY-SA 4.0) y 40.979 códigos postales con ciudad y estado (`codigos_postales.tsv`, GeoNames, CC BY 4.0). Evaluado con 48 casos de prueba fonéticos: 46 de 48 en primera posición, 47 de 48 entre las tres primeras y 1,87 ms de promedio.
+- **Glosario libre en memoria:** Tabla en memoria con índice (`Glosario.cs`), cargada desde `glosario.tsv` con 39.819 entradas y un promedio de búsqueda de unos 3–4 ms (3,59 ms medidos).
+  Desglose por fuente (columna 6 de `app/Birdlang/datos/glosario.tsv`):
+  - `wikidata` (CC0): 9.962
+  - `wiktionary` en español (CC BY-SA 4.0): 9.150
+  - `nci` Instituto Nacional del Cáncer (dominio público federal de EE. UU.): 7.962
+  - `wiktionary-en` en inglés (CC BY-SA 4.0): 6.533
+  - `medlineplus` Biblioteca Nacional de Medicina (dominio público federal de EE. UU.): 2.795
+  - `cfpb` Oficina para la Protección Financiera del Consumidor (dominio público federal de EE. UU.): 1.888
+  - `irs-p850` Publicación 850 del IRS (dominio público federal de EE. UU.): 1.331
+  - `birdlang` lista propia (CC BY-SA 4.0): 155
+  - `cms-sbc` Glosario uniforme de cobertura médica (dominio público federal de EE. UU.): 43
+
+## 4. Rendimiento
+
+- **Laptop Ryzen 7 7730U (16 GB de RAM, 3 h 32 min de uso, 1.440 frases):**
+  - Demora mediana: 1,64 s (9 de cada 10 frases en 1,83 s, peor caso 4,72 s).
+  - Procesador: 2 % promedio y 8 % en el peor segundo.
+  - RAM máxima: 752 MB.
+- **Equipo mínimo de la industria (4 núcleos / 8 hilos, ej. Core i5-8250U, 8 GB de RAM):**
+  - ~5–12 % de procesador promedio, ~18–25 % en el peor segundo y demora mediana menor a 2,0 s (estimado).
+- **Equipo probado por debajo del mínimo (Core i3-4150T, 2 núcleos, 8 GB de RAM, videos de práctica de YouTube):**
+  - Procesador: 15 % promedio y 30–34 % en el peor segundo.
+  - RAM máxima: 712–737 MB.
+  - Demora mediana: 2,13–2,25 s. Una versión anterior perdía el 1,4 % del audio en los picos; la actual guarda más audio y falta medirla en este equipo.
+
+## 5. Seguridad, límites y comprobación para TI
+
+- **Sin internet:** Birdlang no tiene código capaz de conectarse a una red. En sesiones de prueba de 30 y 40 minutos con Process Monitor hizo 0 conexiones de red y escribió 0 archivos (sin incluir el cierre del programa). La versión para empresas (`Birdlang-Empresas-<versión>.zip`) va además sin el actualizador aparte (`actualizar.ps1`).
+- **Memoria volátil:** El búfer de audio de la frase (1,28 MB) se bloquea en RAM física con `VirtualLock` y se limpia con ceros al terminar cada frase y al cerrar sesión. Todo se borra al pulsar «Fin de sesión», tras 15 minutos sin actividad o al cerrar el programa. Un teléfono copiado para marcar se borra del portapapeles a los 20 segundos. Lo único que escribe la versión Estándar es «No volver a mostrar» del aviso para voluntarios (`preferencias.txt`); la versión para empresas no escribe nada.
+- **Qué recomendamos a TI:**
+  1. Activar BitLocker (cifra el archivo de paginación `pagefile.sys`).
+  2. Desactivar la hibernación (`powercfg /h off`).
+  3. Opcional: bloquear `Birdlang.exe` en el Firewall de Windows: no usa la red.
+- **Tres pasos de comprobación desde la carpeta del paquete** (con PowerShell 7 si el equipo no tiene el SDK de .NET; Process Monitor de Sysinternals no viene incluido y se descarga en la carpeta `verificacion`):
+  1. `.\verificacion\verificar_sin_red.ps1`
+  2. `$p = (Get-Process Birdlang).Id; Get-NetTCPConnection -OwningProcess $p; Get-NetUDPEndpoint -OwningProcess $p`
+  3. `.\verificacion\procmon_sesion.ps1` (como administrador)
+- **Descargo:** Birdlang apoya al intérprete y no reemplaza su criterio. Por sí solo no certifica el cumplimiento de HIPAA, GLBA, RGPD ni ninguna otra norma.
+
+================================================================================
+ENGLISH
+================================================================================
+
+## 1. What Birdlang Is
+
+A native desktop tool for English ↔ Spanish interpreters on 64-bit Windows 10 (22H2) and Windows 11 (macOS version in development). It shows live subtitles of the call, converts spoken numbers and phone numbers to digits, looks up US streets offline, and provides an in-memory glossary of nearly 40,000 terms. It does not translate and contains no chatbot or language model.
+
+## 2. Audio Pipeline and Dictated Phone Numbers
+
+- **What it listens to:** Only the sound of the browser running the call (Chrome, Edge, or Brave): all of that browser's sound, not a single tab. It never uses the microphone.
+- **Local CPU models:** Silero VAD (MIT), VoxLingua107 ECAPA (Apache-2.0), and Moonshine Streaming (MIT).
+- **Dictated phone numbers:** If a phrase closed during a pause between digit groups, the English model could invent the missing digits. When a phrase ends in a number, Birdlang waits 1.2 s of silence instead of 0.42 s before closing it, and phone numbers from audio carry a "verify" label.
+
+## 3. Offline US Streets and In-Memory Glossary
+
+- **US streets offline:** 10,669 streets (CC BY-SA 4.0) and 40,979 postal codes from GeoNames (CC BY 4.0). 46 out of 48 test cases matched in first place (47 in the top three) with a 1.87 ms average.
+- **In-memory glossary:** In-memory indexed table with 39,819 entries and an average lookup time of about 3–4 ms (3.59 ms measured). Sources: Wikidata (9,962), Spanish Wiktionary (9,150), NCI (7,962), English Wiktionary (6,533), MedlinePlus (2,795), CFPB (1,888), IRS Pub 850 (1,331), Birdlang (155), CMS/DOL (43).
+
+## 4. Performance
+
+- **Ryzen 7 7730U laptop (16 GB RAM, 3 h 32 min of use, 1,440 phrases):** median delay 1.64 s (9 out of 10 in 1.83 s, worst case 4.72 s); processor 2% average and 8% worst second; 752 MB RAM.
+- **Minimum hardware (i5-8250U, 4 cores / 8 threads, 8 GB RAM):** not measured yet.
+
+## 5. IT Verification and Limits
+
+- **No internet:** 0 network connections and 0 file writes with Process Monitor in 30- and 40-minute test sessions (program shutdown not included). The enterprise package (`Birdlang-Empresas-<version>.zip`) omits `actualizar.ps1`. The only thing the Standard package writes is "don't show again" for the volunteer notice (`preferencias.txt`).
+- **IT checks from the package folder** (with PowerShell 7 if there is no .NET SDK; Sysinternals Process Monitor is not included and goes into the `verificacion` folder):
+  1. `.\verificacion\verificar_sin_red.ps1`
+  2. `$p = (Get-Process Birdlang).Id; Get-NetTCPConnection -OwningProcess $p; Get-NetUDPEndpoint -OwningProcess $p`
+  3. `.\verificacion\procmon_sesion.ps1` (as administrator)

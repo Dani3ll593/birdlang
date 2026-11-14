@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birdlang — Mesa de trabajo para intérpretes español ↔ inglés</title>
+  <meta name="description" content="Herramienta de escritorio abierta para intérpretes español ↔ inglés en Windows. Subtítulos palabra por palabra en el procesador, números en cifras, calles de EE. UU. sin internet y glosario de casi 40.000 términos en memoria.">
+  <link rel="canonical" href="https://dani3ll593.github.io/birdlang/">
+  <link rel="alternate" hreflang="es" href="https://dani3ll593.github.io/birdlang/">
+  <link rel="alternate" hreflang="en" href="https://dani3ll593.github.io/birdlang/en/">
+  <link rel="alternate" hreflang="x-default" href="https://dani3ll593.github.io/birdlang/">
+  <link rel="alternate" type="text/plain" href="llms.txt" title="Contexto para modelos de lenguaje">
+  <link rel="icon" type="image/x-icon" href="activos/birdlang.ico">
+  <link rel="apple-touch-icon" href="activos/logo.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dani3ll593.github.io/birdlang/">
+  <meta property="og:title" content="Birdlang — Mesa de trabajo para intérpretes español ↔ inglés">
+  <meta property="og:description" content="Subtítulos en vivo en el procesador, números en cifras, calles de EE. UU. sin internet y glosario de casi 40.000 términos en memoria. No traduce, no se conecta a internet y no guarda nada de la llamada.">
+  <meta property="og:image" content="https://dani3ll593.github.io/birdlang/activos/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Birdlang — Mesa de trabajo para intérpretes español ↔ inglés">
+  <meta name="twitter:description" content="Subtítulos locales, calles de EE. UU. sin internet y glosario de casi 40.000 términos en memoria RAM.">
+  <meta name="twitter:image" content="https://dani3ll593.github.io/birdlang/activos/logo.png">
+
+  <link rel="stylesheet" href="estilos/birdlang.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://dani3ll593.github.io/birdlang/#software",
+        "name": "Birdlang",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows 10 22H2, Windows 11 (64-bit)",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "url": "https://dani3ll593.github.io/birdlang/",
+        "downloadUrl": "https://github.com/Dani3ll593/birdlang/releases/latest",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Mesa de trabajo nativa para intérpretes español ↔ inglés en Windows. Muestra subtítulos en vivo en el procesador, convierte números hablados a cifras, busca calles de EE. UU. sin internet y ofrece un glosario de casi 40.000 términos en memoria."
+      },
+      {
+        "@type": "Dataset",
+        "@id": "https://dani3ll593.github.io/birdlang/#glosario",
+        "name": "Glosario comunitario de Birdlang",
+        "description": "Glosario bilingüe inglés-español de 39.819 entradas compiladas de fuentes abiertas y de dominio público federal de EE. UU.",
+        "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "url": "https://github.com/Dani3ll593/birdlang"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://dani3ll593.github.io/birdlang/#preguntas",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Birdlang traduce o usa modelos de lenguaje?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. No traduce, no resume ni tiene chatbots. Sus únicos componentes de inteligencia artificial son tres modelos acústicos locales en el procesador que detectan voz, identifican si hablan en inglés o en español y transcriben palabra por palabra."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué queda guardado en el disco duro al cerrar la llamada?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nada de lo que se dice ni de lo que escribe el intérprete. El audio, los subtítulos, las notas y las búsquedas viven solo en la memoria RAM y se borran al pulsar Fin de sesión, tras 15 minutos sin actividad o al cerrar el programa. Lo único que escribe la versión Estándar es «No volver a mostrar» del aviso para voluntarios, en preferencias.txt; la versión para empresas no escribe nada."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera-interior">
+      <a href="#inicio" class="marca">
+        <img src="activos/logo.png" alt="Logo de Birdlang" class="marca-logo" width="30" height="30">
+        <span>Birdlang</span>
+      </a>
+
+      <nav class="menu" aria-label="Navegación principal">
+        <a href="#que-hace">Qué hace</a>
+        <a href="#privacidad">Privacidad</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#para-ti">Para TI</a>
+        <a href="#preguntas">Preguntas</a>
+      </nav>
+
+      <div class="acciones-cabecera">
+        <a href="en/" class="btn" hreflang="en" title="English version">EN</a>
+        <button type="button" class="btn btn-tema">Modo claro</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Inicio -->
+    <section id="inicio" class="seccion-inicio">
+      <div class="contenedor">
+        <h1 class="titulo-principal">Mesa de trabajo para intérpretes español ↔ inglés</h1>
+        <p class="bajada-principal">
+          Subtítulos de la llamada en vivo con los números en cifras, buscador de calles de EE. UU. sin internet y glosario de casi 40.000 términos junto a tus notas, todo en la memoria de tu equipo.
+        </p>
+
+        <div class="acciones-inicio">
+          <a href="https://github.com/Dani3ll593/birdlang/releases/latest" class="btn-primario">Descargar para Windows</a>
+          <a href="#para-ti" class="enlace-ti">¿Eres de TI? Ver la versión para empresas</a>
+        </div>
+        <p class="nota-plataforma">
+          Carpeta portable para Windows 10 (22H2) y Windows 11 de 64 bits. Versión para Mac en desarrollo.
+        </p>
+
+        <!-- Video de demostración pendiente de grabar -->
+
+        <div class="contenedor-maqueta">
+          <div class="encabezado-maqueta">
+            <span class="etiqueta-maqueta">Maqueta</span>
+            <span>Vista de muestra (haz clic en términos, calles o frases)</span>
+          </div>
+
+          <div class="ventana-maqueta" id="ventana-maqueta">
+            <div class="aviso-supervision">
+              Modo Supervisión activo: visible al compartir pantalla, se apaga en <span id="reloj-supervision">20:00</span>
+            </div>
+
+            <div class="barra-maqueta">
+              <div class="marca-maqueta">
+                <img src="activos/logo.png" alt="" width="20" height="20">
+                <span>Birdlang — Maqueta</span>
+              </div>
+
+              <div class="controles-maqueta">
+                <select class="selector-mini" aria-label="Navegador de la llamada">
+                  <option>Edge</option>
+                  <option>Chrome</option>
+                  <option>Brave</option>
+                </select>
+                <select class="selector-mini" aria-label="Motor de voz">
+                  <option>Moonshine Small</option>
+                  <option>Moonshine Tiny</option>
+                </select>
+                <button type="button" class="btn-mini" id="maqueta-btn-supervision">Oculto en capturas</button>
+                <button type="button" class="btn-mini" id="maqueta-btn-tema">Modo claro</button>
+                <button type="button" class="btn-mini btn-fin" id="maqueta-borrar-notas">Fin de sesión</button>
+              </div>
+            </div>
+
+            <div class="cuerpo-maqueta">
+              <!-- Columna izquierda -->
+              <div class="col-maqueta">
+                <div class="pestanas-maqueta">
+                  <button type="button" class="btn-pestana activa" id="btn-tab-glosario">Glosario</button>
+                  <button type="button" class="btn-pestana" id="btn-tab-calles">Calles de EE. UU.</button>
+                </div>
+
+                <div id="vista-glosario" style="display: flex; flex-direction: column; flex: 1;">
+                  <input type="text" id="maqueta-campo-glosario" class="campo-maqueta" placeholder="Buscar término..." aria-label="Buscar en el glosario">
+                  <div class="fila-pais">
+                    <span>País:</span>
+                    <select id="maqueta-selector-pais" class="selector-mini" aria-label="Filtrar por país">
+                      <option value="Todos">Todos</option>
+                      <option value="US">US</option>
+                      <option value="MX">MX</option>
+                      <option value="CO">CO</option>
+                      <option value="PR">PR</option>
+                      <option value="AR">AR</option>
+                    </select>
+                  </div>
+                  <div class="lista-maqueta" id="maqueta-lista-glosario"></div>
+                </div>
+
+                <div id="vista-calles" style="display: none; flex-direction: column; flex: 1;">
+                  <input type="text" id="maqueta-campo-calles" class="campo-maqueta" value="1248 nort guálnut estrit" aria-label="Buscar calle">
+                  <div class="ejemplos-calles">
+                    <button type="button" class="btn-ejemplo-calle" data-calle="1248 nort guálnut estrit">1248 nort guálnut estrit</button>
+                    <button type="button" class="btn-ejemplo-calle" data-calle="pichtri aveniu">pichtri aveniu</button>
+                    <button type="button" class="btn-ejemplo-calle" data-calle="bródgüey">bródgüey</button>
+                    <button type="button" class="btn-ejemplo-calle" data-calle="jonigüel">jonigüel</button>
+                  </div>
+                  <div class="item-maqueta" style="margin-bottom: 8px;">
+                    <div class="item-cabecera">
+                      <span class="item-termino" id="maqueta-salida-calle">1248 N Walnut St</span>
+                      <span class="item-etiqueta">1,87 ms</span>
+                    </div>
+                    <div class="item-meta">Clic para insertar en notas</div>
+                  </div>
+                  <div class="chips-vias">
+                    <button type="button" class="chip-via">St</button>
+                    <button type="button" class="chip-via">Ave</button>
+                    <button type="button" class="chip-via">Blvd</button>
+                    <button type="button" class="chip-via">Rd</button>
+                    <button type="button" class="chip-via">Dr</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Columna central -->
+              <div class="col-maqueta col-subtitulos">
+                <div class="banda banda-en">
+                  <div>
+                    <div class="banda-titulo">
+                      <span>INGLÉS</span>
+                      <span><kbd>F1</kbd></span>
+                    </div>
+                    <div class="banda-lineas">
+                      <div class="linea-sub">
+                        Please call back at <span class="cifra">877-236-4471</span> before <span class="cifra">7:30 p.m.</span>
+                      </div>
+                      <div class="linea-sub">
+                        The copayment for today's visit is <span class="cifra">$450</span>.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="banda-pie">
+                    <span>Clic en una frase para cambiarla de banda</span>
+                  </div>
+                </div>
+
+                <div class="banda banda-es">
+                  <div>
+                    <div class="banda-titulo">
+                      <span>ESPAÑOL</span>
+                      <span><kbd>F2</kbd> · Invertir <kbd>F3</kbd></span>
+                    </div>
+                    <div class="banda-lineas">
+                      <div class="linea-sub">
+                        Mi dirección actual es <span class="cifra">1248 N Walnut St</span> en Muncie.
+                      </div>
+                      <div class="linea-sub">
+                        La cita quedó a las <span class="cifra">10:45</span> de la mañana.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="banda-pie">
+                    <span>Solo escucha el navegador, nunca el micrófono</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Columna derecha -->
+              <div class="col-maqueta">
+                <div class="item-cabecera">
+                  <span class="item-termino">Notas (en RAM)</span>
+                </div>
+                <textarea id="maqueta-notas" class="area-notas" placeholder="Viven solo en RAM y se borran al cerrar."></textarea>
+
+                <div class="caja-marcador">
+                  <div class="cabecera-marcador">
+                    <span>Teléfonos</span>
+                    <button type="button" class="btn-mini" id="btn-limpiar-tel">Limpiar</button>
+                  </div>
+                  <div id="caja-chip-tel">
+                    <div class="chip-tel">
+                      <span>877-236-4471</span>
+                      <span class="marca-verificar">verificar</span>
+                      <button type="button" class="btn-mini" id="btn-copiar-tel">Copiar (20 s)</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Qué hace -->
+    <section id="que-hace" class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2 class="titulo-seccion">Qué hace</h2>
+        </div>
+
+        <div class="grilla-dos">
+          <div class="tarjeta">
+            <h3>Subtítulos palabra por palabra</h3>
+            <p>
+              Escucha solo el navegador de la llamada (Chrome, Edge o Brave), nunca tu micrófono. Tres modelos locales en tu procesador detectan la voz (Silero VAD), identifican el idioma (VoxLingua107) y transcriben en vivo (Moonshine Streaming).
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Números y teléfonos en cifras</h3>
+            <p>
+              Pasa con reglas fijas las palabras numéricas a dígitos, montos y horas (<code>7:30 p.m.</code>). Si la frase se cerrara a mitad de un teléfono, el motor en inglés puede inventar los dígitos que faltan; por eso, si termina en número, espera 1,2 s en vez de 0,42 s y marca «verificar» en los teléfonos del audio.
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Calles de EE. UU. sin internet</h3>
+            <p>
+              Buscar direcciones en mapas web envía datos fuera del equipo. Birdlang trae 10.669 calles y 40.979 códigos postales (GeoNames) en memoria y resuelve nombres pronunciados a la española en 1,87 ms de promedio (46 de 48 en primer lugar y 47 de 48 entre los tres primeros).
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Glosario de casi 40.000 términos</h3>
+            <p>
+              Términos médicos, legales, financieros y regionalismos por país en una tabla en memoria con índice. Responde en unos 3–4 ms de promedio (3,59 ms medidos) sin usar internet.
+            </p>
+          </div>
+        </div>
+
+        <details class="desplegable">
+          <summary>Fuentes del glosario (39.819 términos)</summary>
+          <div class="desplegable-cuerpo">
+            <div class="tabla-wrap">
+              <table class="tabla">
+                <thead>
+                  <tr><th>Fuente</th><th>Entradas</th><th>Licencia</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Wikidata</td><td>9.962</td><td>CC0 1.0</td></tr>
+                  <tr><td>Wiktionary ES (kaikki.org)</td><td>9.150</td><td>CC BY-SA 4.0 + GFDL</td></tr>
+                  <tr><td>NCI (Instituto Nacional del Cáncer)</td><td>7.962</td><td>Dominio público de EE. UU.</td></tr>
+                  <tr><td>Wiktionary EN (kaikki.org)</td><td>6.533</td><td>CC BY-SA 4.0 + GFDL</td></tr>
+                  <tr><td>MedlinePlus (NLM)</td><td>2.795</td><td>Dominio público de EE. UU.</td></tr>
+                  <tr><td>CFPB</td><td>1.888</td><td>Dominio público de EE. UU.</td></tr>
+                  <tr><td>IRS Publicación 850</td><td>1.331</td><td>Dominio público de EE. UU.</td></tr>
+                  <tr><td>Birdlang propio</td><td>155</td><td>CC BY-SA 4.0</td></tr>
+                  <tr><td>CMS / Departamento de Trabajo</td><td>43</td><td>Dominio público de EE. UU.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 3. Privacidad en tres frases -->
+    <section id="privacidad" class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2 class="titulo-seccion">Privacidad en tres frases</h2>
+          <p class="bajada-seccion">
+            Ver la <a href="https://github.com/Dani3ll593/birdlang/blob/main/SEGURIDAD_EMPRESAS.md">ficha para empresas</a> y la <a href="https://github.com/Dani3ll593/birdlang/blob/main/PRIVACY.md">política de privacidad</a>.
+          </p>
+        </div>
+
+        <div class="grilla-tres">
+          <div class="tarjeta">
+            <h3>No se conecta a internet</h3>
+            <p>
+              No tiene código de red, y al armar cada paquete se comprueba automáticamente que ningún binario incluya funciones de red.
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>No guarda nada de la llamada</h3>
+            <p>
+              El audio, los subtítulos, las notas y las búsquedas viven solo en RAM y se borran con «Fin de sesión», tras 15 minutos sin actividad o al cerrar (un teléfono copiado se borra del portapapeles a los 20 segundos). La versión Estándar solo guarda «No volver a mostrar» del aviso para voluntarios, en <code>preferencias.txt</code>; la de empresas no escribe nada.
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>No traduce</h3>
+            <p>
+              No tiene modelos de lenguaje ni chatbots. Windows oculta la ventana de las capturas y de la pantalla compartida, salvo en el modo «Supervisión», con borde ámbar, que se apaga a los 20 minutos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Requisitos -->
+    <section id="requisitos" class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2 class="titulo-seccion">Requisitos</h2>
+          <p class="bajada-seccion">
+            Windows 10 (22H2) y Windows 11 de 64 bits, sin tarjeta gráfica dedicada.
+          </p>
+        </div>
+
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>Perfil</th>
+                <th>Equipo</th>
+                <th>Procesador y RAM</th>
+                <th>Demora de subtítulos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Recomendado</strong> (medido)</td>
+                <td>Ryzen 7 7730U (8 núcleos), 16 GB RAM</td>
+                <td>2 % promedio y 8 % peor segundo · 752 MB RAM (3 h 32 min, 1.440 frases)</td>
+                <td>Mediana 1,64 s · 9 de cada 10 en 1,83 s · peor caso 4,72 s</td>
+              </tr>
+              <tr>
+                <td><strong>Mínimo de la industria</strong> (estimado)</td>
+                <td>4 núcleos / 8 hilos (ej. i5-8250U), 8 GB RAM</td>
+                <td>~5–12 % promedio y ~18–25 % peor segundo (estimado)</td>
+                <td>Menos de 2,0 s de mediana (estimado)</td>
+              </tr>
+              <tr>
+                <td><strong>Bajo el mínimo</strong> (medido)</td>
+                <td>Core i3-4150T (2 núcleos), 8 GB RAM</td>
+                <td>15 % promedio y 30–34 % peor segundo · 712–737 MB RAM</td>
+                <td>Mediana 2,13–2,25 s (una versión anterior perdía el 1,4 % del audio en los picos; la actual guarda más audio y falta medirla en este equipo)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Para TI -->
+    <section id="para-ti" class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2 class="titulo-seccion">Para TI</h2>
+        </div>
+
+        <div class="grilla-dos" style="margin-bottom: 16px;">
+          <div class="tarjeta">
+            <h3>Paquete Estándar (<code>Birdlang-&lt;versión&gt;.zip</code>)</h3>
+            <p>
+              Para intérpretes individuales. Incluye <code>actualizar.ps1</code>, que consulta GitHub Releases solo cuando el usuario pulsa «Buscar actualizaciones».
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Paquete Empresas (<code>Birdlang-Empresas-&lt;versión&gt;.zip</code>)</h3>
+            <p>
+              Para redes de empresas. Va sin <code>actualizar.ps1</code> y sin botón de actualizaciones.
+            </p>
+          </div>
+        </div>
+
+        <div class="grilla-tres">
+          <div class="tarjeta">
+            <h3>1. Revisar binarios</h3>
+            <p>Desde la carpeta del paquete. Si el equipo no tiene el SDK de .NET, con PowerShell 7 (<code>pwsh</code>):</p>
+            <pre class="codigo-bloque">.\verificacion\verificar_sin_red.ps1</pre>
+          </div>
+
+          <div class="tarjeta">
+            <h3>2. Comprobar sockets</h3>
+            <p>Con el programa abierto:</p>
+            <pre class="codigo-bloque">$p = (Get-Process Birdlang).Id
+Get-NetTCPConnection -OwningProcess $p
+Get-NetUDPEndpoint -OwningProcess $p</pre>
+          </div>
+
+          <div class="tarjeta">
+            <h3>3. Process Monitor</h3>
+            <p>Como administrador, con Process Monitor de Sysinternals descargado en la carpeta <code>verificacion</code> (no viene incluido). En sesiones de prueba de 30 y 40 minutos dio 0 eventos de red y 0 escrituras de archivo (sin incluir el cierre del programa).</p>
+            <pre class="codigo-bloque">.\verificacion\procmon_sesion.ps1</pre>
+          </div>
+        </div>
+
+        <div class="grilla-dos" style="margin-top: 16px;">
+          <div class="tarjeta">
+            <h3>Recomendaciones a TI</h3>
+            <p>
+              Activar BitLocker (cifra el archivo de paginación), desactivar la hibernación (<code>powercfg /h off</code>) y, si se quiere, bloquear <code>Birdlang.exe</code> en el Firewall de Windows: no usa la red.
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Límites</h3>
+            <p>
+              Windows registra que el programa corrió, no lo que se dijo. Un proceso con permisos de administrador podría leer la ventana aunque esté oculta de capturas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Cómo empezar y cómo aportar -->
+    <section id="como-empezar" class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2 class="titulo-seccion">Cómo empezar y cómo aportar</h2>
+        </div>
+
+        <div class="grilla-tres">
+          <div class="tarjeta">
+            <h3>Probarlo en 3 pasos</h3>
+            <ol class="lista-simple">
+              <li>Baja <code>Birdlang-&lt;versión&gt;.zip</code> y descomprímelo en tu equipo.</li>
+              <li>Abre la llamada o un video bilingüe en Chrome, Edge o Brave.</li>
+              <li>Abre <code>Birdlang.exe</code> y pulsa «Escuchar».</li>
+            </ol>
+            <p style="margin-top: 12px;">
+              Esta versión todavía no está firmada: si Windows muestra «Windows protegió su PC», pulsa «Más información» y «Ejecutar de todas formas».
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Aportar al glosario</h3>
+            <p>
+              Nunca envíes datos de llamadas reales, nombres de pacientes ni información confidencial (<a href="https://github.com/Dani3ll593/birdlang/blob/main/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a>). Los regionalismos requieren la confirmación de dos hablantes nativos del país y se publican bajo CC BY-SA 4.0 en <a href="https://github.com/Dani3ll593/birdlang/issues">GitHub Issues</a>.
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h3>Compartir tus métricas</h3>
+            <p>
+              Abre el <a href="https://forms.gle/omQEu6ceUL2ZWpoX6">formulario</a> (sin cuenta) y, antes de pulsar «Fin de sesión», que borra las métricas, pulsa «📋 Métricas» y pega el resumen. Solo lleva datos técnicos de rendimiento: equipo, tiempos y conteos, nunca lo que se dijo. Así sabemos cómo corre Birdlang en más equipos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <!-- 7. Preguntas frecuentes -->
+    <section id="preguntas" class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2 class="titulo-seccion">Preguntas frecuentes</h2>
+        </div>
+
+        <details class="desplegable">
+          <summary>¿Traduce o usa modelos de lenguaje?</summary>
+          <div class="desplegable-cuerpo">
+            No. Solo usa tres modelos acústicos locales en el procesador: Silero VAD, VoxLingua107 y Moonshine Streaming.
+          </div>
+        </details>
+
+        <details class="desplegable">
+          <summary>¿Qué queda guardado en el disco al cerrar?</summary>
+          <div class="desplegable-cuerpo">
+            Nada de la llamada: audio, subtítulos, notas y búsquedas viven en RAM y se borran al cerrar o tras 15 minutos sin actividad. Lo único que escribe la versión Estándar es «No volver a mostrar» del aviso para voluntarios (<code>preferencias.txt</code>, junto al programa); la versión para empresas no escribe nada.
+          </div>
+        </details>
+
+        <details class="desplegable">
+          <summary>¿Por qué espera 1,2 s cuando dictan un teléfono?</summary>
+          <div class="desplegable-cuerpo">
+            Si la frase se cortara entre grupos de dígitos, el motor en inglés puede inventar los que faltan. Por eso, si el texto termina en un número, Birdlang espera 1,2 s antes de cerrar la frase.
+          </div>
+        </details>
+
+        <details class="desplegable">
+          <summary>¿Se ve la ventana al compartir pantalla?</summary>
+          <div class="desplegable-cuerpo">
+            Windows la oculta de las capturas y de la pantalla compartida, salvo en el modo «Supervisión» (borde ámbar, 20 minutos).
+          </div>
+        </details>
+
+        <details class="desplegable">
+          <summary>¿Certifica por sí solo HIPAA, GLBA o RGPD?</summary>
+          <div class="desplegable-cuerpo">
+            No. Apoya al intérprete y no reemplaza su criterio ni las políticas de su agencia o cliente.
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-enlaces">
+        <a href="https://github.com/Dani3ll593/birdlang">GitHub</a>
+        <a href="https://github.com/Dani3ll593/birdlang/blob/main/README.md">README</a>
+        <a href="https://github.com/Dani3ll593/birdlang/blob/main/SEGURIDAD_EMPRESAS.md">Ficha de seguridad</a>
+        <a href="https://github.com/Dani3ll593/birdlang/blob/main/PRIVACY.md">Privacidad</a>
+        <a href="https://github.com/Dani3ll593/birdlang/blob/main/CONTRIBUTING.md">Contribuir</a>
+        <a href="llms.txt">llms.txt</a>
+        <a href="en/" hreflang="en">English</a>
+      </div>
+      <p>
+        Código Apache-2.0 · Glosario y calles CC BY-SA 4.0 · Códigos postales GeoNames CC BY 4.0. Birdlang apoya al intérprete y por sí solo no certifica HIPAA, GLBA ni RGPD.
+      </p>
+    </div>
+  </footer>
+
+  <script src="scripts/birdlang-ui.js"></script>
+</body>
+</html>

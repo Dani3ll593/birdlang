@@ -1,0 +1,84 @@
+name: "[Glosario] Nuevo término"
+description: Proponer un nuevo término o equivalencia para el glosario comunitario de Birdlang.
+title: "[Término]: "
+labels: ["glosario"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Propuesta comunitaria para el glosario (CC BY-SA 4.0)
+        **Importante:** No copies definiciones de diccionarios o manuales con derechos de autor.
+        Nunca incluyas información confidencial, datos de llamadas reales ni información protegida de pacientes.
+
+  - type: input
+    id: termino_en
+    attributes:
+      label: Término en inglés
+      description: Término o frase tal como se escucha o utiliza en inglés.
+      placeholder: "e.g. Lienholder"
+    validations:
+      required: true
+
+  - type: input
+    id: equivalente_es
+    attributes:
+      label: Equivalente en español
+      description: Traducción o equivalencia bilingüe en español.
+      placeholder: "e.g. Entidad que ejerce derecho de retención"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      description: Campo o especialidad del término.
+      options:
+        - Médico
+        - Legal
+        - Finanzas
+        - Seguros
+        - Impuestos
+        - Gobierno
+        - Vehículos
+        - Vivienda
+        - General
+    validations:
+      required: true
+
+  - type: textarea
+    id: nota
+    attributes:
+      label: Nota con palabras propias
+      description: Breve explicación o contexto redactado con tus propias palabras (sin copiar definiciones de libros protegidos).
+      placeholder: "Explica brevemente el uso o significado con redacción propia..."
+    validations:
+      required: true
+
+  - type: input
+    id: pais
+    attributes:
+      label: País o región (opcional)
+      description: País o zona hispanohablante donde se utiliza este término (ej. México, Colombia, EE. UU.).
+      placeholder: "e.g. EE. UU."
+    validations:
+      required: false
+
+  - type: input
+    id: fuente
+    attributes:
+      label: Fuente (opcional)
+      description: Fuente pública, entidad u origen de referencia (ej. CFPB, IRS, uso común).
+      placeholder: "e.g. CFPB / Glosario federal público"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: verificaciones
+    attributes:
+      label: Declaraciones de cumplimiento
+      options:
+        - label: "No incluí nada de una llamada real ni datos de pacientes"
+          required: true
+        - label: "Acepto publicar mi aporte bajo CC BY-SA 4.0"
+          required: true

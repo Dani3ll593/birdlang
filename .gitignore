@@ -1,0 +1,6 @@
+descargas/
+dist/
+bin/
+obj/
+__pycache__/
+Procmon64.exe

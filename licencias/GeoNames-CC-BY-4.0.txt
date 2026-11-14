@@ -1,0 +1,9 @@
+GeoNames - US postal codes (datos/codigos_postales.tsv)
+
+Source: GeoNames, https://www.geonames.org
+Download: https://download.geonames.org/export/zip/US.zip
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Changes: only the postal code, city and state were kept, with the first city
+GeoNames lists for each code.

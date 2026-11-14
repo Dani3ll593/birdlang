@@ -1,0 +1,31 @@
+name: "Error o problema"
+description: Contar un fallo de Birdlang (se cierra, no escucha, subtítulos raros).
+title: "[Error]: "
+labels: ["error"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **No pegues nada de una llamada real**: ni subtítulos, ni notas, ni nombres, ni números. Describe el problema con tus palabras.
+  - type: textarea
+    id: que_paso
+    attributes:
+      label: Qué pasó
+      description: Qué hiciste, qué esperabas y qué ocurrió.
+    validations:
+      required: true
+  - type: input
+    id: equipo
+    attributes:
+      label: Equipo
+      description: Versión de Birdlang, Windows, procesador y RAM.
+      placeholder: "0.1.1 · Windows 11 · Ryzen 7 7730U · 16 GB"
+    validations:
+      required: true
+  - type: checkboxes
+    id: verificaciones
+    attributes:
+      label: Confirmación
+      options:
+        - label: "No incluí nada de una llamada real ni datos de pacientes"
+          required: true

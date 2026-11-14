@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Contexto para modelos de lenguaje:
+# https://dani3ll593.github.io/birdlang/llms.txt
+# https://dani3ll593.github.io/birdlang/llms-full.txt
+
+Sitemap: https://dani3ll593.github.io/birdlang/sitemap.xml

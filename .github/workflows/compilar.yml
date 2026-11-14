@@ -1,0 +1,92 @@
+# Compila las dos carpetas portables desde el código del repositorio, corre el
+# verificador de cero red y empaqueta la versión. Con una etiqueta v<versión>
+# crea además un borrador de versión en GitHub Releases, que se publica a mano
+# después de revisarlo. Es también la "compilación automática" que pide
+# SignPath para firmar (README §7): la firma se agregará entre el armado y el
+# empaquetado.
+
+name: Compilar
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compilar:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      # Modelos y DLL de Moonshine: se bajan una vez y quedan en caché mientras
+      # no cambie la lista de descargas.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            app/descargas/modelos
+            app/descargas/paquetes/moonshine_voice-0.1.5-py3-none-win_amd64.whl
+          key: descargas-${{ hashFiles('app/descargar.ps1') }}
+
+      # armar.ps1 corre el verificador de cero red al final y corta si falla.
+      - name: Armar la versión Estándar
+        shell: powershell
+        run: ./app/armar.ps1
+
+      - name: Armar la versión para empresas
+        shell: powershell
+        run: ./app/armar.ps1 -Empresas
+
+      # Como lo correría TI en un equipo sin el SDK de .NET: con PowerShell 7,
+      # desde la carpeta del paquete.
+      - name: Verificador desde el paquete, con PowerShell 7
+        shell: pwsh
+        working-directory: app/dist/Birdlang-Empresas
+        run: ./verificacion/verificar_sin_red.ps1
+
+      - name: Empaquetar
+        shell: powershell
+        run: ./app/empaquetar.ps1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: birdlang
+          path: app/dist/publicar/*
+          retention-days: 14
+
+  publicar:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: compilar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: birdlang
+          path: publicar
+
+      - name: Crear el borrador de la versión
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ETIQUETA: ${{ github.ref_name }}
+        run: |
+          # version.txt sale de Windows con CRLF: sin quitar el \r, la versión
+          # nunca coincidiría con la etiqueta.
+          version=$(tr -d '\r' < publicar/version.txt | awk '$1 == "version" { print $2 }')
+          if [ "v$version" != "$ETIQUETA" ]; then
+            echo "La etiqueta $ETIQUETA no coincide con la versión $version de Birdlang.csproj" >&2
+            exit 1
+          fi
+          gh release create "$ETIQUETA" publicar/* \
+            --repo "$GITHUB_REPOSITORY" --draft \
+            --title "Birdlang $version" \
+            --notes "Carpeta portable para Windows 10 y 11 (64 bits). Primera instalación: Birdlang-$version.zip. Empresas: Birdlang-Empresas-$version.zip. Las sumas SHA-256 están en SHA256SUMS.txt."

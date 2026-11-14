@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Preguntas y discusión sobre Birdlang
+    url: https://github.com/Dani3ll593/birdlang/discussions
+    about: Para preguntas generales o ideas sobre el proyecto.
+  - name: Compartir las métricas de rendimiento de tu equipo
+    url: https://forms.gle/omQEu6ceUL2ZWpoX6
+    about: Formulario sin cuenta de GitHub. Pega solo el bloque de «📋 Métricas», sin texto de ninguna llamada.
